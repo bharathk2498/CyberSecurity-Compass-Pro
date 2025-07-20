@@ -15,12 +15,16 @@
             --cyber-red: #ff4757;
             --cyber-purple: #9c88ff;
             --cyber-yellow: #ffa502;
+            --cyber-orange: #ff6348;
             --text-primary: #ffffff;
             --text-secondary: #b8b8b8;
             --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #9c88ff 100%);
             --gradient-danger: linear-gradient(135deg, #ff4757 0%, #ff6b6b 100%);
             --gradient-success: linear-gradient(135deg, #00ff9f 0%, #00b894 100%);
+            --gradient-warning: linear-gradient(135deg, #ffa502 0%, #ff6348 100%);
             --shadow-glow: 0 0 20px rgba(0, 212, 255, 0.3);
+            --shadow-glow-red: 0 0 20px rgba(255, 71, 87, 0.3);
+            --shadow-glow-green: 0 0 20px rgba(0, 255, 159, 0.3);
             --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -251,6 +255,22 @@
             border-radius: 12px;
             border: 2px solid transparent;
             transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .framework-card::before,
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: var(--transition-smooth);
+            opacity: 0;
         }
 
         .framework-card:hover,
@@ -258,6 +278,18 @@
             border-color: var(--cyber-blue);
             background: linear-gradient(135deg, var(--accent-dark) 0%, rgba(0, 212, 255, 0.1) 100%);
             transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .framework-card:hover::before,
+        .tool-card:hover::before {
+            opacity: 1;
+            animation: shimmer 1.5s ease-in-out;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
         /* Metrics */
@@ -275,6 +307,7 @@
 
         .metric:hover {
             background: rgba(42, 42, 42, 0.8);
+            transform: translateX(5px);
         }
 
         .metric.warning {
@@ -333,11 +366,30 @@
             margin: 1rem 0;
             border-left: 4px solid var(--cyber-red);
             transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .threat-feed::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--cyber-red), transparent);
+            animation: pulse-border 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-border {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         .threat-feed:hover {
             background: rgba(42, 42, 42, 0.8);
             transform: translateX(5px);
+            box-shadow: var(--shadow-glow-red);
         }
 
         .threat-feed.threat-level-critical {
@@ -372,11 +424,28 @@
             margin: 0.2rem;
             transition: var(--transition-smooth);
             white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: var(--transition-smooth);
         }
 
         .badge:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+        }
+
+        .badge:hover::before {
+            left: 100%;
         }
 
         .badge.danger {
@@ -392,6 +461,16 @@
         .badge.success {
             background: var(--cyber-green);
             color: var(--primary-dark);
+        }
+
+        .badge.purple {
+            background: var(--cyber-purple);
+            color: white;
+        }
+
+        .badge.orange {
+            background: var(--cyber-orange);
+            color: white;
         }
 
         /* Compliance table */
@@ -430,6 +509,75 @@
 
         .compliance-table tr:hover {
             background: rgba(0, 212, 255, 0.05);
+        }
+
+        /* Section headers */
+        .section-header {
+            color: var(--cyber-blue);
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        /* Vulnerability card */
+        .vulnerability-card {
+            background: linear-gradient(135deg, var(--accent-dark) 0%, rgba(255, 71, 87, 0.1) 100%);
+            border: 1px solid var(--cyber-red);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            transition: var(--transition-smooth);
+        }
+
+        .vulnerability-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow-red);
+        }
+
+        /* Attack technique card */
+        .attack-technique {
+            background: var(--accent-dark);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem;
+            border-left: 3px solid var(--cyber-purple);
+            transition: var(--transition-smooth);
+            display: inline-block;
+            min-width: 200px;
+        }
+
+        .attack-technique:hover {
+            background: rgba(156, 136, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Tool category */
+        .tool-category {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, var(--accent-dark) 100%);
+            border-radius: 12px;
+            border: 1px solid var(--cyber-blue);
+        }
+
+        .tool-category h4 {
+            color: var(--cyber-blue);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
         }
 
         /* Floating action button */
@@ -544,50 +692,6 @@
             transform: translateY(-2px);
         }
 
-        /* Section headers */
-        .section-header {
-            color: var(--cyber-blue);
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-align: center;
-            position: relative;
-        }
-
-        .section-header::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: var(--gradient-primary);
-            border-radius: 2px;
-        }
-
-        /* Loading states */
-        .loading {
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        .loading::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
-            animation: loading-sweep 1.5s ease-in-out infinite;
-        }
-
-        @keyframes loading-sweep {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
         /* Responsive design */
         @media (max-width: 768px) {
             .container {
@@ -637,48 +741,6 @@
                 gap: 0.5rem;
             }
         }
-
-        /* High contrast mode support */
-        @media (prefers-contrast: high) {
-            :root {
-                --primary-dark: #000000;
-                --secondary-dark: #1a1a1a;
-                --text-primary: #ffffff;
-                --cyber-blue: #00ffff;
-                --cyber-green: #00ff00;
-                --cyber-red: #ff0000;
-            }
-        }
-
-        /* Reduced motion support */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        /* Print styles */
-        @media print {
-            .navigation,
-            .floating-action,
-            .modal {
-                display: none !important;
-            }
-            
-            .header {
-                background: none !important;
-                color: black !important;
-            }
-            
-            .card {
-                border: 1px solid #ccc !important;
-                break-inside: avoid;
-            }
-        }
     </style>
 </head>
 <body>
@@ -691,57 +753,47 @@
 
     <nav class="navigation" role="navigation" aria-label="Main navigation">
         <div class="nav-container">
-            <button class="nav-item active" data-section="dashboard" aria-describedby="dashboard-desc">
+            <button class="nav-item active" data-section="dashboard">
                 🏠 Dashboard
-                <span class="sr-only" id="dashboard-desc">Security overview and metrics</span>
             </button>
-            <button class="nav-item" data-section="frameworks" aria-describedby="frameworks-desc">
+            <button class="nav-item" data-section="frameworks">
                 📋 Frameworks
-                <span class="sr-only" id="frameworks-desc">Security frameworks and standards</span>
             </button>
-            <button class="nav-item" data-section="threats" aria-describedby="threats-desc">
+            <button class="nav-item" data-section="threats">
                 ⚠️ Threat Intel
-                <span class="sr-only" id="threats-desc">Threat intelligence and analysis</span>
             </button>
-            <button class="nav-item" data-section="compliance" aria-describedby="compliance-desc">
+            <button class="nav-item" data-section="compliance">
                 ✅ Compliance
-                <span class="sr-only" id="compliance-desc">Regulatory compliance tracking</span>
             </button>
-            <button class="nav-item" data-section="tools" aria-describedby="tools-desc">
+            <button class="nav-item" data-section="tools">
                 🔧 Security Tools
-                <span class="sr-only" id="tools-desc">Security tools and technologies</span>
             </button>
-            <button class="nav-item" data-section="cloud" aria-describedby="cloud-desc">
+            <button class="nav-item" data-section="cloud">
                 ☁️ Cloud Security
-                <span class="sr-only" id="cloud-desc">Cloud security management</span>
             </button>
-            <button class="nav-item" data-section="devsecops" aria-describedby="devsecops-desc">
+            <button class="nav-item" data-section="devsecops">
                 ⚙️ DevSecOps
-                <span class="sr-only" id="devsecops-desc">Development security operations</span>
             </button>
-            <button class="nav-item" data-section="ai" aria-describedby="ai-desc">
+            <button class="nav-item" data-section="ai">
                 🤖 AI Security
-                <span class="sr-only" id="ai-desc">Artificial intelligence security</span>
             </button>
-            <button class="nav-item" data-section="knowledge" aria-describedby="knowledge-desc">
+            <button class="nav-item" data-section="knowledge">
                 📚 Knowledge Base
-                <span class="sr-only" id="knowledge-desc">Security knowledge and resources</span>
             </button>
         </div>
     </nav>
 
     <main class="container" role="main">
         <!-- Dashboard Section -->
-        <section id="dashboard" class="section active" aria-labelledby="dashboard-title">
-            <h2 class="sr-only" id="dashboard-title">Security Dashboard</h2>
+        <section id="dashboard" class="section active">
             <div class="dashboard-grid">
-                <div class="card" role="region" aria-labelledby="security-posture-title">
-                    <h3 id="security-posture-title">🛡️ Security Posture Overview</h3>
+                <div class="card">
+                    <h3>🛡️ Security Posture Overview</h3>
                     <div class="metric">
                         <span>Overall Security Score</span>
                         <span class="metric-value" style="color: var(--cyber-green);">87/100</span>
                     </div>
-                    <div class="progress-bar" role="progressbar" aria-valuenow="87" aria-valuemin="0" aria-valuemax="100" aria-label="Security score 87 out of 100">
+                    <div class="progress-bar">
                         <div class="progress-fill" style="width: 87%"></div>
                     </div>
                     
@@ -761,9 +813,9 @@
                     </div>
                 </div>
 
-                <div class="card" role="region" aria-labelledby="threat-intel-title">
-                    <h3 id="threat-intel-title">🔥 Real-Time Threat Intelligence</h3>
-                    <div class="threat-feed threat-level-critical" role="alert">
+                <div class="card">
+                    <h3>🔥 Real-Time Threat Intelligence</h3>
+                    <div class="threat-feed threat-level-critical">
                         <strong>CRITICAL:</strong> New ransomware variant targeting healthcare systems<br>
                         <small>Source: CISA Alert AA24-001A | 2 hours ago</small>
                     </div>
@@ -777,8 +829,8 @@
                     </div>
                 </div>
 
-                <div class="card" role="region" aria-labelledby="compliance-status-title">
-                    <h3 id="compliance-status-title">📊 Compliance Status</h3>
+                <div class="card">
+                    <h3>📊 Compliance Status</h3>
                     <div class="metric">
                         <span>NIST CSF 2.0</span>
                         <span class="badge success">92% Compliant</span>
@@ -797,8 +849,8 @@
                     </div>
                 </div>
 
-                <div class="card" role="region" aria-labelledby="security-metrics-title">
-                    <h3 id="security-metrics-title">🎯 Security Metrics</h3>
+                <div class="card">
+                    <h3>🎯 Security Metrics</h3>
                     <div class="metric">
                         <span>Mean Time to Detection (MTTD)</span>
                         <span class="metric-value" style="color: var(--cyber-green);">12 minutes</span>
@@ -819,15 +871,843 @@
             </div>
         </section>
 
-        <!-- Other sections abbreviated for space... -->
+        <!-- Frameworks Section -->
         <section id="frameworks" class="section">
-            <h2 class="section-header">🏛️ Cybersecurity Frameworks</h2>
-            <p style="text-align: center; margin: 2rem 0; color: var(--text-secondary);">Comprehensive framework coverage including NIST CSF 2.0, ISO 27001, CIS Controls, and more...</p>
+            <h2 class="section-header">🏛️ Cybersecurity Frameworks & Standards</h2>
+            <div class="framework-grid">
+                <div class="framework-card">
+                    <h4 style="color: var(--cyber-green);">🇺🇸 NIST Cybersecurity Framework 2.0</h4>
+                    <p><strong>Core Functions:</strong></p>
+                    <span class="badge success">Govern (GV)</span>
+                    <span class="badge">Identify (ID)</span>
+                    <span class="badge">Protect (PR)</span>
+                    <span class="badge">Detect (DE)</span>
+                    <span class="badge">Respond (RS)</span>
+                    <span class="badge">Recover (RC)</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 92%"></div>
+                    </div>
+                    <p style="margin-top: 1rem;"><strong>Key Updates:</strong> Enhanced governance focus, supply chain security, and improved implementation guidance</p>
+                    <span class="badge success">Updated 2024</span>
+                </div>
+
+                <div class="framework-card">
+                    <h4 style="color: var(--cyber-blue);">🌍 ISO/IEC 27001:2022</h4>
+                    <p><strong>Control Categories:</strong></p>
+                    <span class="badge">Organizational (37)</span>
+                    <span class="badge">People (8)</span>
+                    <span class="badge">Physical (14)</span>
+                    <span class="badge">Technological (34)</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 89%"></div>
+                    </div>
+                    <p style="margin-top: 1rem;"><strong>Total Controls:</strong> 93 security controls (reduced from 114 in 2013 version)</p>
+                    <span class="badge">Certification Ready</span>
+                </div>
+
+                <div class="framework-card">
+                    <h4 style="color: var(--cyber-purple);">🛡️ CIS Controls v8</h4>
+                    <p><strong>Implementation Groups:</strong></p>
+                    <span class="badge purple">IG1 - Basic Cyber Hygiene</span>
+                    <span class="badge purple">IG2 - Risk Management</span>
+                    <span class="badge purple">IG3 - Expert/Progressive</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%"></div>
+                    </div>
+                    <p style="margin-top: 1rem;"><strong>Safeguards:</strong> 18 controls with 153 sub-controls for prioritized cyber defense</p>
+                    <span class="badge">Implementation Groups 1-3</span>
+                </div>
+
+                <div class="framework-card">
+                    <h4 style="color: var(--cyber-yellow);">🎯 MITRE ATT&CK Framework</h4>
+                    <p><strong>Enterprise Matrix:</strong></p>
+                    <span class="badge warning">14 Tactics</span>
+                    <span class="badge warning">193 Techniques</span>
+                    <span class="badge warning">401 Sub-techniques</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 78%"></div>
+                    </div>
+                    <p style="margin-top: 1rem;"><strong>Coverage:</strong> Enterprise, Mobile, ICS platforms with threat actor profiling</p>
+                    <span class="badge">Threat Modeling</span>
+                </div>
+
+                <div class="framework-card">
+                    <h4 style="color: var(--cyber-red);">⚡ OWASP Top 10 (2021)</h4>
+                    <p><strong>Critical Web Risks:</strong></p>
+                    <span class="badge danger">A01 - Broken Access Control</span>
+                    <span class="badge danger">A02 - Cryptographic Failures</span>
+                    <span class="badge danger">A03 - Injection</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 95%"></div>
+                    </div>
+                    <p style="margin-top: 1rem;"><strong>New Additions:</strong> Insecure Design, Software/Data Integrity Failures</p>
+                    <span class="badge success">2021 Edition</span>
+                </div>
+
+                <div class="framework-card">
+                    <h4 style="color: var(--cyber-green);">🔒 Zero Trust Architecture</h4>
+                    <p><strong>Core Principles:</strong></p>
+                    <span class="badge success">Never Trust</span>
+                    <span class="badge success">Always Verify</span>
+                    <span class="badge success">Least Privilege</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 72%"></div>
+                    </div>
+                    <p style="margin-top: 1rem;"><strong>NIST SP 800-207:</strong> Identity-centric security model with continuous verification</p>
+                    <span class="badge warning">In Progress</span>
+                </div>
+            </div>
         </section>
 
+        <!-- Threat Intelligence Section -->
         <section id="threats" class="section">
-            <h2 class="section-header">⚠️ Threat Intelligence</h2>
-            <p style="text-align: center; margin: 2rem 0; color: var(--text-secondary);">Real-time threat feeds and advanced persistent threat tracking...</p>
+            <h2 class="section-header">⚠️ Advanced Threat Intelligence</h2>
+            
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>🔥 Active Threat Campaigns</h3>
+                    <div class="threat-feed threat-level-critical">
+                        <strong>APT29 (Cozy Bear) - SVR RF</strong><br>
+                        Targeting government and healthcare with SolarWinds-style supply chain attacks<br>
+                        <span class="badge danger">Active</span> <span class="badge">Nation-State</span> <span class="badge">Russia</span>
+                        <br><small>TTPs: T1195.002, T1078, T1055, T1083 | Source: CISA, NSA</small>
+                    </div>
+                    <div class="threat-feed threat-level-critical">
+                        <strong>Conti Ransomware Group</strong><br>
+                        Double extortion attacks with Trickbot distribution network<br>
+                        <span class="badge danger">High Activity</span> <span class="badge">Ransomware</span> <span class="badge">eCrime</span>
+                        <br><small>TTPs: T1486, T1567.002, T1490, T1021 | Avg Demand: $6M</small>
+                    </div>
+                    <div class="threat-feed threat-level-high">
+                        <strong>Lazarus Group (HIDDEN COBRA)</strong><br>
+                        Cryptocurrency exchange targeting and BeagleBoyz financial operations<br>
+                        <span class="badge warning">Monitored</span> <span class="badge">Nation-State</span> <span class="badge">North Korea</span>
+                        <br><small>TTPs: T1566.001, T1204.002, T1105, T1029 | Target: SWIFT</small>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📈 Global Threat Landscape</h3>
+                    <div class="metric critical">
+                        <span>Ransomware Attacks</span>
+                        <span class="metric-value" style="color: var(--cyber-red);">↑ 41% YoY</span>
+                    </div>
+                    <div class="metric critical">
+                        <span>Supply Chain Attacks</span>
+                        <span class="metric-value" style="color: var(--cyber-red);">↑ 62% YoY</span>
+                    </div>
+                    <div class="metric warning">
+                        <span>Cloud Security Incidents</span>
+                        <span class="metric-value" style="color: var(--cyber-yellow);">↑ 28% YoY</span>
+                    </div>
+                    <div class="metric critical">
+                        <span>AI-Enhanced Attacks</span>
+                        <span class="metric-value" style="color: var(--cyber-red);">↑ 135% YoY</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 MITRE ATT&CK Techniques (Top 10)</h3>
+                    <div class="attack-technique">
+                        <strong>T1566 - Phishing</strong><br>
+                        <small>Initial Access | 89% prevalence</small>
+                    </div>
+                    <div class="attack-technique">
+                        <strong>T1078 - Valid Accounts</strong><br>
+                        <small>Privilege Escalation | 76% prevalence</small>
+                    </div>
+                    <div class="attack-technique">
+                        <strong>T1055 - Process Injection</strong><br>
+                        <small>Defense Evasion | 72% prevalence</small>
+                    </div>
+                    <div class="attack-technique">
+                        <strong>T1059 - Command/Script Interpreter</strong><br>
+                        <small>Execution | 68% prevalence</small>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🚨 Critical Vulnerabilities (CVE)</h3>
+                    <div class="vulnerability-card">
+                        <strong>CVE-2024-21762</strong> - Fortinet FortiOS<br>
+                        <span class="badge danger">CVSS 9.6</span> <span class="badge">RCE</span> <span class="badge">Pre-auth</span><br>
+                        <small>Out-of-bounds write vulnerability in SSL VPN | Exploited in wild</small>
+                    </div>
+                    <div class="vulnerability-card">
+                        <strong>CVE-2024-1086</strong> - Linux Kernel<br>
+                        <span class="badge danger">CVSS 7.8</span> <span class="badge">LPE</span> <span class="badge">Use-after-free</span><br>
+                        <small>Privilege escalation in netfilter nf_tables | PoC available</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Compliance Section -->
+        <section id="compliance" class="section">
+            <h2 class="section-header">✅ Regulatory Compliance Matrix</h2>
+            
+            <div class="compliance-matrix">
+                <table class="compliance-table">
+                    <thead>
+                        <tr>
+                            <th>Regulation</th>
+                            <th>Scope & Industry</th>
+                            <th>Key Requirements</th>
+                            <th>Penalties (Max)</th>
+                            <th>Compliance Status</th>
+                            <th>Next Audit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>GDPR</strong><br><small>General Data Protection Regulation</small></td>
+                            <td>EU/EEA Data Processing<br><small>All sectors handling EU citizen data</small></td>
+                            <td>Data Privacy, Consent, Right to Erasure, DPIA, DPO appointment</td>
+                            <td>€20M or 4% of annual revenue</td>
+                            <td><span class="badge success">95% Compliant</span></td>
+                            <td>Q2 2025</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SOX</strong><br><small>Sarbanes-Oxley Act</small></td>
+                            <td>Public Companies<br><small>Financial reporting integrity</small></td>
+                            <td>Internal Controls (ICFR), Section 404, CEO/CFO Certification</td>
+                            <td>$5M fine + 20 years prison</td>
+                            <td><span class="badge success">98% Compliant</span></td>
+                            <td>Q1 2025</td>
+                        </tr>
+                        <tr>
+                            <td><strong>HIPAA</strong><br><small>Health Insurance Portability</small></td>
+                            <td>Healthcare Industry<br><small>PHI protection</small></td>
+                            <td>Administrative, Physical, Technical Safeguards, BAA, Risk Assessment</td>
+                            <td>$1.95M per incident</td>
+                            <td><span class="badge success">92% Compliant</span></td>
+                            <td>Q3 2025</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PCI DSS 4.0</strong><br><small>Payment Card Industry</small></td>
+                            <td>Payment Card Processing<br><small>CHD/SAD protection</small></td>
+                            <td>12 Requirements, Network Security, Encryption, Access Control</td>
+                            <td>$500K + card suspension</td>
+                            <td><span class="badge warning">78% Compliant</span></td>
+                            <td>Q1 2025</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Security Tools Section -->
+        <section id="tools" class="section">
+            <h2 class="section-header">🔧 Enterprise Security Tools Arsenal</h2>
+            
+            <div class="tool-grid">
+                <div class="tool-card">
+                    <h4 style="color: var(--cyber-blue);">🛡️ SIEM/SOAR Platforms</h4>
+                    <p><strong>Enterprise Solutions:</strong></p>
+                    <span class="badge">Splunk Enterprise Security</span>
+                    <span class="badge">Microsoft Sentinel</span>
+                    <span class="badge">IBM QRadar</span>
+                    <span class="badge">Phantom SOAR</span>
+                    <span class="badge">Demisto (Cortex XSOAR)</span>
+                    <p style="margin-top: 1rem;"><strong>Open Source:</strong></p>
+                    <span class="badge success">Wazuh</span>
+                    <span class="badge success">ELK Stack</span>
+                    <p style="margin-top: 1rem;">Centralized security monitoring, correlation, and automated response capabilities</p>
+                </div>
+
+                <div class="tool-card">
+                    <h4 style="color: var(--cyber-green);">🔍 Vulnerability Management</h4>
+                    <p><strong>Commercial Scanners:</strong></p>
+                    <span class="badge">Nessus Professional</span>
+                    <span class="badge">Qualys VMDR</span>
+                    <span class="badge">Rapid7 InsightVM</span>
+                    <span class="badge">Greenbone Enterprise</span>
+                    <p style="margin-top: 1rem;"><strong>Open Source:</strong></p>
+                    <span class="badge success">OpenVAS</span>
+                    <span class="badge success">Nuclei</span>
+                    <span class="badge success">Nikto</span>
+                    <p style="margin-top: 1rem;">Continuous vulnerability assessment, prioritization, and remediation tracking</p>
+                </div>
+
+                <div class="tool-card">
+                    <h4 style="color: var(--cyber-red);">🔥 Endpoint Detection & Response</h4>
+                    <p><strong>Enterprise EDR:</strong></p>
+                    <span class="badge">CrowdStrike Falcon</span>
+                    <span class="badge">SentinelOne</span>
+                    <span class="badge">Microsoft Defender for Endpoint</span>
+                    <span class="badge">Carbon Black (VMware)</span>
+                    <span class="badge">Cortex XDR</span>
+                    <p style="margin-top: 1rem;">Advanced threat hunting, behavioral analysis, and automated response</p>
+                </div>
+
+                <div class="tool-card">
+                    <h4 style="color: var(--cyber-purple);">🔐 Identity & Access Management</h4>
+                    <p><strong>Enterprise IAM:</strong></p>
+                    <span class="badge">Okta</span>
+                    <span class="badge">Azure Active Directory</span>
+                    <span class="badge">Ping Identity</span>
+                    <span class="badge">SailPoint</span>
+                    <p style="margin-top: 1rem;"><strong>Privileged Access (PAM):</strong></p>
+                    <span class="badge purple">CyberArk</span>
+                    <span class="badge purple">BeyondTrust</span>
+                    <span class="badge purple">Thycotic Secret Server</span>
+                    <p style="margin-top: 1rem;">Zero-trust identity verification and privileged account protection</p>
+                </div>
+
+                <div class="tool-card">
+                    <h4 style="color: var(--cyber-blue);">⚡ Penetration Testing</h4>
+                    <p><strong>Exploitation Frameworks:</strong></p>
+                    <span class="badge">Metasploit Pro</span>
+                    <span class="badge">Cobalt Strike</span>
+                    <span class="badge">Core Impact</span>
+                    <p style="margin-top: 1rem;"><strong>Web Application Testing:</strong></p>
+                    <span class="badge warning">Burp Suite Professional</span>
+                    <span class="badge warning">OWASP ZAP</span>
+                    <span class="badge warning">Netsparker</span>
+                    <p style="margin-top: 1rem;"><strong>OS Distributions:</strong></p>
+                    <span class="badge danger">Kali Linux</span>
+                    <span class="badge danger">Parrot Security</span>
+                    <p style="margin-top: 1rem;">Comprehensive security testing and exploitation validation</p>
+                </div>
+
+                <div class="tool-card">
+                    <h4 style="color: var(--cyber-green);">📧 Email Security</h4>
+                    <p><strong>Email Gateway:</strong></p>
+                    <span class="badge">Proofpoint</span>
+                    <span class="badge">Mimecast</span>
+                    <span class="badge">Barracuda</span>
+                    <span class="badge">Microsoft Defender for Office 365</span>
+                    <p style="margin-top: 1rem;"><strong>Anti-Phishing:</strong></p>
+                    <span class="badge orange">KnowBe4</span>
+                    <span class="badge orange">Cofense</span>
+                    <p style="margin-top: 1rem;">Advanced threat protection, sandboxing, and user training</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cloud Security Section -->
+        <section id="cloud" class="section">
+            <h2 class="section-header">☁️ Multi-Cloud Security Excellence</h2>
+            
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>🌩️ Cloud Security Posture</h3>
+                    <div class="metric">
+                        <span>AWS Security Score</span>
+                        <span class="metric-value" style="color: var(--cyber-green);">94/100</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 94%"></div>
+                    </div>
+                    <div class="metric">
+                        <span>Azure Security Score</span>
+                        <span class="metric-value" style="color: var(--cyber-green);">91/100</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 91%"></div>
+                    </div>
+                    <div class="metric">
+                        <span>GCP Security Score</span>
+                        <span class="metric-value" style="color: var(--cyber-yellow);">87/100</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 87%"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🟡 AWS Security Services</h3>
+                    <div class="tool-category">
+                        <h4>Detection & Response</h4>
+                        <span class="badge success">GuardDuty</span>
+                        <span class="badge success">Security Hub</span>
+                        <span class="badge success">Detective</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Data Protection</h4>
+                        <span class="badge purple">Macie</span>
+                        <span class="badge purple">KMS</span>
+                        <span class="badge purple">CloudHSM</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔵 Azure Security Services</h3>
+                    <div class="tool-category">
+                        <h4>Security Operations</h4>
+                        <span class="badge success">Defender for Cloud</span>
+                        <span class="badge success">Sentinel</span>
+                        <span class="badge success">Defender for Endpoint</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Identity Protection</h4>
+                        <span class="badge">Azure AD</span>
+                        <span class="badge">Privileged Identity Management</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📦 Container Security</h3>
+                    <div class="metric">
+                        <span>Container Images Scanned</span>
+                        <span class="metric-value" style="color: var(--cyber-green);">1,247</span>
+                    </div>
+                    <div class="metric critical">
+                        <span>Critical Vulnerabilities</span>
+                        <span class="metric-value" style="color: var(--cyber-red);">8</span>
+                    </div>
+                    <div class="metric">
+                        <span>Kubernetes Clusters</span>
+                        <span class="metric-value" style="color: var(--cyber-green);">12 monitored</span>
+                    </div>
+                    <p style="margin-top: 1rem;"><strong>Container Security Tools:</strong></p>
+                    <span class="badge">Twistlock</span>
+                    <span class="badge">Aqua Security</span>
+                    <span class="badge">Sysdig Secure</span>
+                    <span class="badge success">Trivy</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- DevSecOps Section -->
+        <section id="devsecops" class="section">
+            <h2 class="section-header">⚙️ DevSecOps Integration Pipeline</h2>
+            
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>🔧 CI/CD Security Pipeline</h3>
+                    <div class="metric">
+                        <span>Security Gates Active</span>
+                        <span class="metric-value" style="color: var(--cyber-green);">15</span>
+                    </div>
+                    <div class="metric">
+                        <span>Security Scans per Week</span>
+                        <span class="metric-value" style="color: var(--cyber-green);">1,245</span>
+                    </div>
+                    <div class="metric warning">
+                        <span>Failed Security Builds</span>
+                        <span class="metric-value" style="color: var(--cyber-yellow);">23 (1.8%)</span>
+                    </div>
+                    <p style="margin-top: 1rem;"><strong>CI/CD Platforms:</strong></p>
+                    <span class="badge">Jenkins</span>
+                    <span class="badge">GitLab CI/CD</span>
+                    <span class="badge">GitHub Actions</span>
+                    <span class="badge">Azure DevOps</span>
+                </div>
+
+                <div class="card">
+                    <h3>🔍 Static Analysis (SAST)</h3>
+                    <div class="tool-category">
+                        <h4>Commercial SAST</h4>
+                        <span class="badge">Checkmarx</span>
+                        <span class="badge">Veracode</span>
+                        <span class="badge">Fortify SCA</span>
+                        <span class="badge">CodeQL</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Open Source SAST</h4>
+                        <span class="badge success">SonarQube</span>
+                        <span class="badge success">Semgrep</span>
+                        <span class="badge success">Bandit</span>
+                    </div>
+                    <div class="metric">
+                        <span>Code Lines Scanned Daily</span>
+                        <span class="metric-value">2.3M</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🌐 Dynamic Analysis (DAST)</h3>
+                    <div class="tool-category">
+                        <h4>Commercial DAST</h4>
+                        <span class="badge">Rapid7 AppSpider</span>
+                        <span class="badge">Qualys WAS</span>
+                        <span class="badge">Acunetix</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Open Source DAST</h4>
+                        <span class="badge success">OWASP ZAP</span>
+                        <span class="badge success">Nikto</span>
+                        <span class="badge success">w3af</span>
+                    </div>
+                    <div class="metric">
+                        <span>Applications Scanned</span>
+                        <span class="metric-value">147</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📦 Software Composition Analysis</h3>
+                    <div class="tool-category">
+                        <h4>Commercial SCA</h4>
+                        <span class="badge">Snyk</span>
+                        <span class="badge">WhiteSource</span>
+                        <span class="badge">Black Duck</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Open Source SCA</h4>
+                        <span class="badge success">OWASP Dependency-Check</span>
+                        <span class="badge success">Safety</span>
+                        <span class="badge success">Retire.js</span>
+                    </div>
+                    <div class="metric">
+                        <span>Dependencies Tracked</span>
+                        <span class="metric-value">12,847</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📈 Security Metrics</h3>
+                    <div class="metric">
+                        <span>Mean Time to Fix (MTTF)</span>
+                        <span class="metric-value" style="color: var(--cyber-green);">4.2 days</span>
+                    </div>
+                    <div class="metric">
+                        <span>Security Debt Ratio</span>
+                        <span class="metric-value" style="color: var(--cyber-yellow);">12%</span>
+                    </div>
+                    <div class="metric">
+                        <span>Secure Code Coverage</span>
+                        <span class="metric-value" style="color: var(--cyber-green);">89%</span>
+                    </div>
+                    <div class="metric">
+                        <span>Security Training Completion</span>
+                        <span class="metric-value" style="color: var(--cyber-green);">96%</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🛠️ Infrastructure as Code Security</h3>
+                    <p><strong>IaC Security Tools:</strong></p>
+                    <span class="badge">Terraform Security</span>
+                    <span class="badge">CloudFormation Guard</span>
+                    <span class="badge">Checkov</span>
+                    <span class="badge">Terrascan</span>
+                    <span class="badge">tfsec</span>
+                    <div class="metric">
+                        <span>IaC Templates Scanned</span>
+                        <span class="metric-value" style="color: var(--cyber-green);">847</span>
+                    </div>
+                    <div class="metric">
+                        <span>Misconfigurations Found</span>
+                        <span class="metric-value" style="color: var(--cyber-yellow);">34</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Security Section -->
+        <section id="ai" class="section">
+            <h2 class="section-header">🤖 AI-Powered Security & AI Security</h2>
+            
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>🧠 AI Security Operations</h3>
+                    <div class="metric">
+                        <span>ML Models in Production</span>
+                        <span class="metric-value" style="color: var(--cyber-green);">23</span>
+                    </div>
+                    <div class="metric">
+                        <span>Automated Threat Detection</span>
+                        <span class="metric-value" style="color: var(--cyber-green);">94.7% accuracy</span>
+                    </div>
+                    <div class="metric">
+                        <span>False Positive Reduction</span>
+                        <span class="metric-value" style="color: var(--cyber-green);">87%</span>
+                    </div>
+                    <div class="metric">
+                        <span>Security Automation Rate</span>
+                        <span class="metric-value" style="color: var(--cyber-green);">76%</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>⚡ OWASP AI Security Top 10</h3>
+                    <span class="badge danger">LLM01 - Prompt Injection</span>
+                    <span class="badge danger">LLM02 - Insecure Output Handling</span>
+                    <span class="badge warning">LLM03 - Training Data Poisoning</span>
+                    <span class="badge warning">LLM04 - Model Denial of Service</span>
+                    <span class="badge warning">LLM05 - Supply Chain Vulnerabilities</span>
+                    <span class="badge">LLM06 - Sensitive Information Disclosure</span>
+                    <span class="badge">LLM07 - Insecure Plugin Design</span>
+                    <span class="badge">LLM08 - Excessive Agency</span>
+                    <span class="badge">LLM09 - Overreliance</span>
+                    <span class="badge">LLM10 - Model Theft</span>
+                </div>
+
+                <div class="card">
+                    <h3>🔒 AI Governance Framework</h3>
+                    <div class="metric">
+                        <span>AI Ethics Policy</span>
+                        <span class="badge success">Implemented</span>
+                    </div>
+                    <div class="metric">
+                        <span>Model Risk Assessment</span>
+                        <span class="badge success">Active</span>
+                    </div>
+                    <div class="metric">
+                        <span>Bias Detection</span>
+                        <span class="badge warning">In Progress</span>
+                    </div>
+                    <div class="metric">
+                        <span>AI Incident Response</span>
+                        <span class="badge success">Established</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🛡️ AI Security Tools</h3>
+                    <div class="tool-category">
+                        <h4>Model Protection</h4>
+                        <span class="badge">Adversarial Robustness Toolbox</span>
+                        <span class="badge">Microsoft Counterfit</span>
+                        <span class="badge">IBM AI Fairness 360</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Threat Detection</h4>
+                        <span class="badge">Darktrace AI</span>
+                        <span class="badge">Vectra Cognito</span>
+                        <span class="badge">Cybereason</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Privacy Preservation</h4>
+                        <span class="badge purple">Differential Privacy</span>
+                        <span class="badge purple">Homomorphic Encryption</span>
+                        <span class="badge purple">Federated Learning</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔍 AI Security Assessment</h3>
+                    <div class="metric">
+                        <span>AI Models Audited</span>
+                        <span class="metric-value">89</span>
+                    </div>
+                    <div class="metric warning">
+                        <span>High-Risk Models</span>
+                        <span class="metric-value" style="color: var(--cyber-yellow);">7</span>
+                    </div>
+                    <div class="metric">
+                        <span>Bias Testing Coverage</span>
+                        <span class="metric-value" style="color: var(--cyber-green);">92%</span>
+                    </div>
+                    <div class="metric">
+                        <span>Adversarial Testing</span>
+                        <span class="metric-value" style="color: var(--cyber-green);">78%</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🤖 AI Threat Landscape</h3>
+                    <div class="threat-feed threat-level-critical">
+                        <strong>Adversarial ML Attacks</strong><br>
+                        Evasion attacks on image recognition models increasing 340%<br>
+                        <span class="badge danger">Critical</span> <span class="badge">Model Evasion</span>
+                    </div>
+                    <div class="threat-feed threat-level-high">
+                        <strong>Data Poisoning</strong><br>
+                        Training data manipulation in supply chain compromises<br>
+                        <span class="badge warning">High</span> <span class="badge">Data Integrity</span>
+                    </div>
+                    <div class="threat-feed threat-level-medium">
+                        <strong>Model Extraction</strong><br>
+                        Intellectual property theft through API queries<br>
+                        <span class="badge">Medium</span> <span class="badge">IP Theft</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Knowledge Base Section -->
+        <section id="knowledge" class="section">
+            <h2 class="section-header">📚 Comprehensive Security Knowledge Base</h2>
+            
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>📖 Security Fundamentals</h3>
+                    <div class="tool-category">
+                        <h4>Core Concepts</h4>
+                        <span class="badge">CIA Triad (Confidentiality, Integrity, Availability)</span>
+                        <span class="badge">Defense in Depth</span>
+                        <span class="badge">Least Privilege Principle</span>
+                        <span class="badge">Zero Trust Model</span>
+                        <span class="badge">Threat Modeling</span>
+                        <span class="badge">Risk Management</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Security Processes</h4>
+                        <span class="badge success">Incident Response</span>
+                        <span class="badge success">Business Continuity Planning</span>
+                        <span class="badge success">Disaster Recovery</span>
+                        <span class="badge success">Vulnerability Management</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔐 Cryptography & PKI</h3>
+                    <div class="tool-category">
+                        <h4>Encryption Standards</h4>
+                        <span class="badge">AES-256 (Advanced Encryption Standard)</span>
+                        <span class="badge">RSA-4096 (Public Key Cryptography)</span>
+                        <span class="badge">ECC P-384 (Elliptic Curve Cryptography)</span>
+                        <span class="badge">ChaCha20-Poly1305 (Stream Cipher)</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Hashing Algorithms</h4>
+                        <span class="badge purple">SHA-3 (Secure Hash Algorithm)</span>
+                        <span class="badge purple">Blake2 (Fast Secure Hash)</span>
+                        <span class="badge purple">Argon2 (Password Hashing)</span>
+                        <span class="badge purple">bcrypt (Adaptive Hash)</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Key Management</h4>
+                        <span class="badge warning">HSM (Hardware Security Modules)</span>
+                        <span class="badge warning">Key Rotation Policies</span>
+                        <span class="badge warning">Certificate Lifecycle Management</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🌐 Network Security Deep Dive</h3>
+                    <div class="tool-category">
+                        <h4>Network Protocols</h4>
+                        <span class="badge">TLS 1.3 (Transport Layer Security)</span>
+                        <span class="badge">IPSec (Internet Protocol Security)</span>
+                        <span class="badge">WireGuard (Modern VPN Protocol)</span>
+                        <span class="badge">OpenVPN (SSL VPN)</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Network Monitoring</h4>
+                        <span class="badge success">Flow Analysis (NetFlow, sFlow)</span>
+                        <span class="badge success">Deep Packet Inspection (DPI)</span>
+                        <span class="badge success">Behavioral Analytics</span>
+                        <span class="badge success">Threat Hunting</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Network Segmentation</h4>
+                        <span class="badge orange">VLAN (Virtual LANs)</span>
+                        <span class="badge orange">Microsegmentation</span>
+                        <span class="badge orange">Software-Defined Perimeter (SDP)</span>
+                        <span class="badge orange">Network Access Control (NAC)</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>💼 Security Career Paths</h3>
+                    <div class="tool-category">
+                        <h4>Technical Roles</h4>
+                        <span class="badge">Security Analyst (SOC)</span>
+                        <span class="badge">Penetration Tester</span>
+                        <span class="badge">Security Engineer</span>
+                        <span class="badge">Security Architect</span>
+                        <span class="badge">Incident Responder</span>
+                        <span class="badge">Threat Hunter</span>
+                        <span class="badge">Forensics Investigator</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Management Roles</h4>
+                        <span class="badge purple">CISO (Chief Information Security Officer)</span>
+                        <span class="badge purple">Security Manager</span>
+                        <span class="badge purple">GRC Manager</span>
+                        <span class="badge purple">Risk Manager</span>
+                        <span class="badge purple">Security Consultant</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🎓 Certifications & Training</h3>
+                    <div class="tool-category">
+                        <h4>Entry Level</h4>
+                        <span class="badge success">Security+ (CompTIA)</span>
+                        <span class="badge success">CySA+ (CompTIA)</span>
+                        <span class="badge success">Network+ (CompTIA)</span>
+                        <span class="badge success">GSEC (SANS)</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Intermediate</h4>
+                        <span class="badge">CISSP (Certified Information Systems Security Professional)</span>
+                        <span class="badge">CISM (Certified Information Security Manager)</span>
+                        <span class="badge">CISA (Certified Information Systems Auditor)</span>
+                        <span class="badge">CEH (Certified Ethical Hacker)</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Advanced</h4>
+                        <span class="badge danger">OSCP (Offensive Security Certified Professional)</span>
+                        <span class="badge danger">SABSA (Sherwood Applied Business Security Architecture)</span>
+                        <span class="badge danger">CISSP Concentrations</span>
+                        <span class="badge danger">SANS Expert Level</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📋 Security Checklists</h3>
+                    <div class="tool-category">
+                        <h4>Incident Response Process (NIST SP 800-61)</h4>
+                        <span class="badge warning">1. Preparation</span>
+                        <span class="badge warning">2. Detection & Analysis</span>
+                        <span class="badge warning">3. Containment, Eradication & Recovery</span>
+                        <span class="badge warning">4. Post-Incident Activity</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Security Assessment Checklist</h4>
+                        <span class="badge">Asset Inventory & Classification</span>
+                        <span class="badge">Vulnerability Assessment</span>
+                        <span class="badge">Penetration Testing</span>
+                        <span class="badge">Risk Assessment & Analysis</span>
+                        <span class="badge">Compliance Review</span>
+                        <span class="badge">Security Control Testing</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Security Awareness Topics</h4>
+                        <span class="badge success">Phishing Recognition</span>
+                        <span class="badge success">Password Security</span>
+                        <span class="badge success">Social Engineering</span>
+                        <span class="badge success">Physical Security</span>
+                        <span class="badge success">Data Classification</span>
+                        <span class="badge success">Incident Reporting</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔬 Emerging Security Technologies</h3>
+                    <div class="tool-category">
+                        <h4>Quantum Security</h4>
+                        <span class="badge purple">Quantum Key Distribution (QKD)</span>
+                        <span class="badge purple">Post-Quantum Cryptography</span>
+                        <span class="badge purple">Quantum Random Number Generation</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Blockchain Security</h4>
+                        <span class="badge">Smart Contract Auditing</span>
+                        <span class="badge">Consensus Mechanism Security</span>
+                        <span class="badge">Cryptocurrency Security</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>IoT & Edge Security</h4>
+                        <span class="badge warning">Device Identity Management</span>
+                        <span class="badge warning">Secure Boot & Firmware</span>
+                        <span class="badge warning">Edge Computing Security</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Security Metrics & KPIs</h3>
+                    <div class="tool-category">
+                        <h4>Operational Metrics</h4>
+                        <span class="badge">MTTD (Mean Time to Detection)</span>
+                        <span class="badge">MTTR (Mean Time to Response)</span>
+                        <span class="badge">MTTC (Mean Time to Containment)</span>
+                        <span class="badge">MTTR (Mean Time to Recovery)</span>
+                    </div>
+                    <div class="tool-category">
+                        <h4>Risk Metrics</h4>
+                        <span class="badge orange">Risk Exposure</span>
+                        <span class="badge orange">Vulnerability Density</span>
+                        <span class="badge orange">Control Effectiveness</span>
+                        <span class="badge orange">Security ROI</span>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 
@@ -836,71 +1716,298 @@
         🚀
     </button>
 
+    <!-- Modal for Quick Actions -->
+    <div id="actionModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color: var(--cyber-blue); margin-bottom: 1rem;">⚡ Quick Security Actions</h3>
+            <div class="modal-actions">
+                <button class="modal-button" data-action="scan">
+                    🔍 Run Security Scan
+                </button>
+                <button class="modal-button" data-action="report">
+                    📊 Generate Security Report
+                </button>
+                <button class="modal-button" data-action="compliance">
+                    ✅ Check Compliance Status
+                </button>
+                <button class="modal-button" data-action="threat">
+                    ⚠️ Update Threat Intelligence
+                </button>
+                <button class="modal-button" data-action="export">
+                    💾 Export Security Data
+                </button>
+            </div>
+            <button class="close-button" id="closeModal">Close</button>
+        </div>
+    </div>
+
     <script>
         class CyberSecurityCompass {
             constructor() {
                 this.currentSection = 'dashboard';
+                this.isModalOpen = false;
+                this.progressAnimationDelay = 100;
+                
                 this.initializeEventListeners();
                 this.initializeProgressBars();
+                this.startRealTimeUpdates();
+                this.initializeKeyboardNavigation();
             }
 
             initializeEventListeners() {
+                // Navigation handling
                 const navItems = document.querySelectorAll('.nav-item');
                 navItems.forEach(item => {
                     item.addEventListener('click', (e) => this.handleNavigation(e));
+                    item.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            this.handleNavigation(e);
+                        }
+                    });
                 });
 
+                // Modal handling
                 const actionButton = document.getElementById('actionButton');
+                const modal = document.getElementById('actionModal');
+                const closeButton = document.getElementById('closeModal');
+                const modalButtons = document.querySelectorAll('.modal-button');
+
                 if (actionButton) {
-                    actionButton.addEventListener('click', () => {
-                        alert('🚀 CyberSecurity Compass Pro\n\nDemo platform showcasing comprehensive cybersecurity intelligence!\n\n✅ All features implemented\n✅ Production-ready code\n✅ Mobile responsive\n✅ Accessibility compliant');
+                    actionButton.addEventListener('click', () => this.openModal());
+                    actionButton.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            this.openModal();
+                        }
                     });
                 }
+
+                if (closeButton) {
+                    closeButton.addEventListener('click', () => this.closeModal());
+                }
+
+                if (modal) {
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) {
+                            this.closeModal();
+                        }
+                    });
+                }
+
+                modalButtons.forEach(button => {
+                    button.addEventListener('click', (e) => this.handleQuickAction(e));
+                });
+
+                // ESC key to close modal
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && this.isModalOpen) {
+                        this.closeModal();
+                    }
+                });
             }
 
             handleNavigation(event) {
-                const sectionId = event.target.getAttribute('data-section');
-                if (!sectionId) return;
+                try {
+                    const sectionId = event.target.getAttribute('data-section');
+                    if (!sectionId) return;
 
-                this.showSection(sectionId);
-                
-                document.querySelectorAll('.nav-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-                
-                event.target.classList.add('active');
-                this.currentSection = sectionId;
-            }
-
-            showSection(sectionId) {
-                const sections = document.querySelectorAll('.section');
-                sections.forEach(section => {
-                    section.classList.remove('active');
-                });
-                
-                const targetSection = document.getElementById(sectionId);
-                if (targetSection) {
-                    targetSection.classList.add('active');
+                    this.showSection(sectionId);
+                    
+                    // Update navigation state
+                    document.querySelectorAll('.nav-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    event.target.classList.add('active');
+                    this.currentSection = sectionId;
+                    
+                } catch (error) {
+                    console.error('Navigation error:', error);
                 }
             }
 
-            initializeProgressBars() {
-                const progressBars = document.querySelectorAll('.progress-fill');
-                progressBars.forEach((bar, index) => {
-                    const width = bar.style.width;
-                    bar.style.width = '0%';
+            showSection(sectionId) {
+                try {
+                    // Hide all sections
+                    const sections = document.querySelectorAll('.section');
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                    });
                     
-                    setTimeout(() => {
-                        bar.style.width = width;
-                    }, index * 100 + 200);
+                    // Show selected section
+                    const targetSection = document.getElementById(sectionId);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                        
+                        // Re-initialize progress bars for the visible section
+                        setTimeout(() => {
+                            this.initializeProgressBars(targetSection);
+                        }, this.progressAnimationDelay);
+                    }
+                } catch (error) {
+                    console.error('Section display error:', error);
+                }
+            }
+
+            initializeProgressBars(container = document) {
+                try {
+                    const progressBars = container.querySelectorAll('.progress-fill');
+                    progressBars.forEach((bar, index) => {
+                        const width = bar.style.width;
+                        bar.style.width = '0%';
+                        
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, index * 100 + this.progressAnimationDelay);
+                    });
+                } catch (error) {
+                    console.error('Progress bar initialization error:', error);
+                }
+            }
+
+            openModal() {
+                try {
+                    const modal = document.getElementById('actionModal');
+                    if (modal) {
+                        modal.classList.add('show');
+                        this.isModalOpen = true;
+                        
+                        // Focus first button in modal
+                        const firstButton = modal.querySelector('.modal-button');
+                        if (firstButton) {
+                            setTimeout(() => firstButton.focus(), 100);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Modal open error:', error);
+                }
+            }
+
+            closeModal() {
+                try {
+                    const modal = document.getElementById('actionModal');
+                    if (modal) {
+                        modal.classList.remove('show');
+                        this.isModalOpen = false;
+                        
+                        // Return focus to action button
+                        const actionButton = document.getElementById('actionButton');
+                        if (actionButton) {
+                            actionButton.focus();
+                        }
+                    }
+                } catch (error) {
+                    console.error('Modal close error:', error);
+                }
+            }
+
+            handleQuickAction(event) {
+                try {
+                    const action = event.target.getAttribute('data-action');
+                    this.executeQuickAction(action);
+                    this.closeModal();
+                } catch (error) {
+                    console.error('Quick action error:', error);
+                }
+            }
+
+            executeQuickAction(action) {
+                const actions = {
+                    scan: () => {
+                        this.showNotification('🔍 Security scan initiated...\n\nScanning 1,247 assets across network, cloud, and endpoints.\nEstimated completion: 15 minutes.');
+                    },
+                    report: () => {
+                        this.showNotification('📊 Generating comprehensive security report...\n\nIncluding:\n• Executive Summary\n• Risk Assessment\n• Compliance Status\n• Remediation Recommendations\n\nReport will be ready in 5 minutes.');
+                    },
+                    compliance: () => {
+                        this.showNotification('✅ Compliance check complete!\n\nResults:\n• NIST CSF 2.0: 92% ✅\n• ISO 27001: 89% ✅\n• SOC 2: 78% ⚠️\n• PCI DSS: 65% ❌\n\nPriority actions required for PCI DSS compliance.');
+                    },
+                    threat: () => {
+                        this.showNotification('⚠️ Threat intelligence update complete!\n\n• 47 new IOCs added\n• 12 new threat campaigns identified\n• 3 critical vulnerabilities discovered\n• Updated MITRE ATT&CK mappings\n\nAll security tools synchronized.');
+                    },
+                    export: () => {
+                        this.showNotification('💾 Security data export initiated...\n\nExporting:\n• Security metrics\n• Compliance reports\n• Threat intelligence\n• Asset inventory\n\nDownload link will be sent to your email.');
+                    }
+                };
+
+                const actionFunction = actions[action];
+                if (actionFunction) {
+                    actionFunction();
+                }
+            }
+
+            showNotification(message) {
+                alert(message);
+            }
+
+            startRealTimeUpdates() {
+                // Update metrics every 30 seconds
+                setInterval(() => {
+                    this.updateRandomMetrics();
+                }, 30000);
+            }
+
+            updateRandomMetrics() {
+                try {
+                    const metrics = document.querySelectorAll('.metric-value');
+                    const randomMetric = metrics[Math.floor(Math.random() * metrics.length)];
+                    
+                    if (randomMetric && Math.random() > 0.8) {
+                        randomMetric.style.animation = 'pulse 1s ease-in-out';
+                        setTimeout(() => {
+                            randomMetric.style.animation = '';
+                        }, 1000);
+                    }
+                } catch (error) {
+                    console.error('Metric update error:', error);
+                }
+            }
+
+            initializeKeyboardNavigation() {
+                document.addEventListener('keydown', (e) => {
+                    // Alt + number for quick section navigation
+                    if (e.altKey && e.key >= '1' && e.key <= '9') {
+                        e.preventDefault();
+                        const sections = ['dashboard', 'frameworks', 'threats', 'compliance', 'tools', 'cloud', 'devsecops', 'ai', 'knowledge'];
+                        const index = parseInt(e.key) - 1;
+                        if (sections[index]) {
+                            this.showSection(sections[index]);
+                            const navItem = document.querySelector(`[data-section="${sections[index]}"]`);
+                            if (navItem) {
+                                navItem.click();
+                            }
+                        }
+                    }
                 });
             }
         }
 
+        // Initialize the application when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-            window.cyberSecurityCompass = new CyberSecurityCompass();
-            console.log('🛡️ CyberSecurity Compass Pro initialized successfully');
+            try {
+                window.cyberSecurityCompass = new CyberSecurityCompass();
+                console.log('🛡️ CyberSecurity Compass Pro initialized successfully');
+            } catch (error) {
+                console.error('Application initialization error:', error);
+            }
         });
+
+        // Add CSS animation for pulse effect
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0%, 100% { 
+                    transform: scale(1); 
+                    opacity: 1; 
+                }
+                50% { 
+                    transform: scale(1.05); 
+                    opacity: 0.8; 
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
